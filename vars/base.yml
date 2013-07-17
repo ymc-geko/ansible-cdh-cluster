@@ -1,0 +1,8 @@
+clouderamanager: hadoop-pg-1
+cmuser: admin
+cmpassword: admin
+
+cdhparceldir: /opt/cloudera/parcels/CDH
+solrparceldir: /opt/cloudera/parcels/SOLR
+
+

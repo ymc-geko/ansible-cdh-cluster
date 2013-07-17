@@ -1,0 +1,11 @@
+---
+  - name: print some stuff
+    action: debug msg="DEBUG node=$ansible_hostname, group=$group_names, $is_worker"
+  - name: set CM agents to $desired_state
+    action: service name=cloudera-scm-agent state=$desired_state
+    when_string: $ansible_hostname != $clouderamanager
+  - name: set CM master to $desired_state
+    action: service name=cloudera-scm-server state=$desired_state
+    action: service name=cloudera-scm-server-db state=$desired_state
+    when_string: $ansible_hostname == $clouderamanager
+

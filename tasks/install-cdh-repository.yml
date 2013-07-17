@@ -1,0 +1,9 @@
+---
+  - name: get CDH repository package
+    get_url: url=http://archive.cloudera.com/cdh4/one-click-install/squeeze/amd64/cdh4-repository_1.0_all.deb dest=~/cdh4-repository_1.0_all.deb
+  - name: Install CDH repository package
+    shell: dpkg -i ~/cdh4-repository_1.0_all.deb
+  - name: get ClouderaManager repo list
+    get_url: url=http://archive.cloudera.com/cm4/debian/squeeze/amd64/cm/cloudera.list dest=/etc/apt/sources.list.d/cloudera-manager.list
+  - name: update the repositories
+    shell: apt-get update

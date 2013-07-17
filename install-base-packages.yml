@@ -1,0 +1,26 @@
+-
+ hosts: all
+ user: root
+ sudo: no
+ tasks:
+ - include: tasks/install-cdh-repository.yml
+ - name: update apt repositories
+   action: shell apt-get update ; true
+ - name: install python-apt
+   raw: "apt-get install -y python-apt"
+ - name: install ntp
+   action: apt pkg=ntp state=latest
+   notify: start ntp
+ - name: install sudo
+   action: apt pkg=sudo state=latest
+ - name: install tree
+   action: apt pkg=tree state=latest
+ - name: install curl
+   action: apt pkg=curl state=latest
+ - name: install oracle-j2sdk1.6
+   action: apt pkg=oracle-j2sdk1.6 state=latest
+ - name: managing hosts file 
+   action: lineinfile dest=/etc/hosts regexp="^127.0.1.1" line=""
+ handlers:
+ - name: start ntp
+   action: service name=ntp state=started

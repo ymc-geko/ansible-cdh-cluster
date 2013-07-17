@@ -1,0 +1,25 @@
+---
+- hosts: $clouderamanager
+  user: root
+  sudo: no
+  vars_files:
+  - vars/base.yml
+
+  tasks:
+  - name: update apt repositories
+    action: shell apt-get update ; true
+  
+  - name: install CM server
+    action: apt pkg=$item state=latest
+    with_items:
+    - cloudera-manager-daemons
+    - cloudera-manager-server-db
+    - cloudera-manager-server
+
+  - name: start cloudera-manager-server and -db
+    action: service name=$item state=running
+    with_items:
+    - cloudera-scm-server-db
+    - cloudera-scm-server
+    
+    

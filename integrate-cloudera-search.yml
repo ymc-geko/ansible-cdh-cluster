@@ -1,0 +1,35 @@
+---
+- hosts: $clouderamanager
+  user: root
+  sudo: no
+  vars_files:
+  - vars/base.yml
+
+  tasks:
+  # service Hue must be stopped before adding 'Solr search' to the icon list
+  - name: stop service Hue
+    local_action: shell /usr/bin/curl -s -X POST -u $cmuser:$cmpassword 'http://$clouderamanager:7180/api/v1/clusters/Cluster%201%20-%20CDH4/services/hue1/commands/stop'
+    
+  - name: update apt repositories
+    action: shell apt-get update ; true
+  
+  # 'make' is required from registering the app extension 'search'
+  # the real 'registering' is performed by the shell script which is copied in the next step
+  - name: install utility make
+    action: apt pkg=make state=latest
+    
+  - name: copy script to register hue-search
+    action: template src=./scripts/register-hue-search.sh.j2 dest=/tmp/register-hue-search.sh
+  
+  - name: Enforce permissions on the copied script
+    action: file path=/tmp/register-hue-search.sh mode=0700 owner=root group=root
+
+  # now finally register the 'search' app      
+  - name: register service hue-search
+    action: shell /tmp/register-hue-search.sh
+  
+  # ...and start service Hue
+  - name: start service Hue
+    local_action: shell /usr/bin/curl -s -X POST -u $cmuser:$cmpassword 'http://$clouderamanager:7180/api/v1/clusters/Cluster%201%20-%20CDH4/services/hue1/commands/start'
+    
+   

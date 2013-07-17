@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd {{ cdhparceldir }}/share/hue
+./build/env/bin/python ./tools/app_reg/app_reg.py --install {{ solrparceldir }}/share/hue/apps/search
+sed -i 's/\.\/apps/..\/..\/..\/..\/..\/apps/g' ./build/env/lib/python2.6/site-packages/hue.pth
