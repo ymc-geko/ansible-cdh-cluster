@@ -44,4 +44,4 @@ Ansible usage hints
 How to handle the playbooks ?
 
 1. setup a CDH based Hadoop cluster via Cloudera Manager including integrated Cloudera Search
-- detailed step-by-step instruction is available
+- a detailed step-by-step instruction is available at http://www.ymc.ch/en/how-to-install-cloudera-manager-and-cloudera-search-with-support-from-ansible
